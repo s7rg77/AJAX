@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>desarrollo web entorno servidor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: lightcoral;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        h1,
+        h2 {
+            margin-left: 10px;
+            color: #FFFFFF;
+            font-weight: normal;
+        }
+
+        #head {
+            margin-top: 10px;
+            margin-right: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .home,
+        .doc,
+        .git {
+            margin-left: 10px;
+            width: 100px;
+        }
+
+        label {
+            margin-left: 10px;
+        }
+
+        input {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        button {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: grey;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+
+        button:hover {
+            background-color: lightgrey;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin-bottom: 5px;
+            padding: 10px;
+            background-color: lightgrey;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        footer {
+            background-color: grey;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            /**
+             * Realiza una búsqueda de libros a medida que se escribe en el campo de texto.
+             *
+             * @param {Event} event - El evento de entrada.
+             * @return {void}
+             */
+            $("#texto").on("input", function (event) {
+                var text = $(this).val();
+                if (/[^a-zA-Z]/.test(text)) {
+                    $(this).val($(this).val().replace(/[^a-zA-Z]/g, ""));
+                    return;
+                }
+                if (text.trim() === '') {
+                    $("#listaLibros").empty();
+                    return;
+                }
+                $.ajax({
+                    url: "api.php",
+                    type: "GET",
+                    data: {
+                        action: "buscarLibros",
+                        texto: text
+                    },
+                    dataType: "json",
+                    success: function (r) {
+                        mostrarResultados(r);
+                    }
+                });
+            });
+
+            /**
+             * Muestra los resultados de la búsqueda de libros en la lista.
+             *
+             * @param {Array} libros - Array de objetos de libros.
+             * @return {void}
+             */
+            function mostrarResultados(libros) {
+                var lista = $("#listaLibros");
+                lista.empty();
+                libros.forEach(function (libro, index) {
+                    var newItem = $("<li style='display:none;'>"
+                        + libro.titulo + "</li>");
+                    lista.append(newItem);
+                    newItem.slideDown(250);
+                });
+            }
+        });
+
+        function goHome() {
+
+            window.location.href = '/';
+
+        }
+
+        function goGit() {
+
+            window.location.href = 'https://github.com/s7rg77/AJAX';
+
+        }
+
+        function goDoc() {
+
+            window.location.href = '/doc';
+            
+        }
+    </script>
+</head>
+
+<body>
+    <div id="head">
+        <button class="doc" onclick="goDoc()">doc</button>
+        <button class="git" onclick="goGit()">git</button>
+        <button class="home" onclick="goHome()">back</button>
+    </div>
+    <h1>AJAX</h1>
+    <h2>sergio lópez</h2>
+    <form>
+        <label for="texto">introduce texto:</label><br>
+        <input type="text" id="texto" name="texto">
+    </form>
+    <ul id="listaLibros"></ul>
+</body>
+
+<footer>
+    <h2>desarrollo web entorno servidor</h2>
+</footer>
+
+</html>
