@@ -7,10 +7,18 @@
     <title>AJAX</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        html,
         body {
             margin: 0px;
             padding: 0px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
             background-color: lightcoral;
+            color: black;
             font-family: monospace;
             font-size: 16px;
         }
@@ -22,11 +30,16 @@
             font-weight: normal;
         }
 
-        #head {
+        header {
             margin-top: 10px;
             margin-right: 10px;
             display: flex;
             justify-content: flex-end;
+        }
+
+        main {
+            margin-bottom: 10px;
+            flex: 1;
         }
 
         .home,
@@ -75,12 +88,10 @@
         }
 
         footer {
-            bottom: 0px;
             width: 100%;
             background-color: grey;
             color: white;
             text-align: center;
-            position: fixed;
         }
     </style>
 
@@ -155,11 +166,13 @@
 </head>
 
 <body>
-    <div id="head">
+    <header>
         <button class="doc" onclick="goDoc()">doc</button>
         <button class="git" onclick="goGit()">git</button>
         <button class="home" onclick="goHome()">back</button>
-    </div>
+    </header>
+
+<main>
     <h1>AJAX</h1>
     <h2>sergio lópez</h2>
     <form>
@@ -167,10 +180,12 @@
         <input type="text" id="texto" name="texto">
     </form>
     <ul id="listaLibros"></ul>
-</body>
+</main>
 
 <footer>
     <h2>desarrollo web entorno servidor</h2>
 </footer>
+
+</body>
 
 </html>
